@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">MobileGuiFinalProject</string>
+    <string name="movieButton">Movie Informaion</string>
+    <string name="downloadButton">Download Movie Info</string>
+    <string name="MovieInformation">Movie Information</string>
+    <string name="addMovieButton">Add Movie</string>
+    <string name="movieName">Movie Name: </string>
+    <string name="movieLength">Movie Length: </string>
+    <string name="movieTitle">Enter Movie Title</string>
+    <string name="movieActors">Enter Movie Actors</string>
+    <string name="moveLength">Enter Movie Length</string>
+    <string name="movieDescription">Enter Movie Description</string>
+    <string name="movieRating">Enter Movie Rating</string>
+    <string name="movieGenre">Enter Movie Genre</string>
+    <string name="movieURL">Paste Movie URL</string>
+    <string name="submitMovie">Submit</string>
+    <string name="Information">Information</string>
 </resources>
