@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mcFrameLayout"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/questionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Question" />
+
+        <EditText
+            android:id="@+id/question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:ems="10"
+            android:inputType="text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <TextView
+            android:id="@+id/answerDislay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Answers" />
+
+        <EditText
+            android:id="@+id/answer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/question"
+            android:ems="10"
+            android:hint="Answer1"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/answer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/question"
+            android:ems="10"
+            android:hint="Answer2"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/answer3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:ems="10"
+            android:hint="Answer3"
+            android:layout_below="@+id/question"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/answer4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:ems="10"
+            android:hint="Answer4"
+            android:layout_below="@+id/question"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/rightAnswerDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Right Answer" />
+
+        <EditText
+            android:id="@+id/answerRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:ems="10"
+            android:hint="Right Answer"
+            android:layout_below="@+id/question"
+            android:inputType="text" />
+
+
+        <Button
+            android:id="@+id/addQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add This Question" />
+        <Button
+            android:id="@+id/deleteQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Delete This Question" />
+
+    </LinearLayout>
+
+
+</FrameLayout>

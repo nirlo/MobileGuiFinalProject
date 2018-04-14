@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,17 +45,15 @@ public class QuestionFragment extends Fragment implements Serializable {
         super.onCreate(savedInstanceState);
     }
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
+        Boolean exist = getActivity().getIntent().getExtras().getBoolean("exist");
+
         deleteButton = (Button) view.findViewById(R.id.deleteQuestion);
         addButton = (Button) view.findViewById(R.id.addQuestion);
 
-        question = view.findViewById(R.id.question);
-        answer1 = view.findViewById(R.id.answer1);
-        answer2 = view.findViewById(R.id.answer2);
-        answer3 = view.findViewById(R.id.answer3);
-        answer4 = view.findViewById(R.id.answer4);
-        correctAnswer = view.findViewById(R.id.answerRight);
-        digits = view.findViewById(R.id.digits);
+        if(exist) {
+            addButton.setEnabled(false);
+        }
 
         deleteButton.setOnClickListener(new View.OnClickListener()  {
 
@@ -63,11 +62,12 @@ public class QuestionFragment extends Fragment implements Serializable {
                 if(isTablet) {
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.remove(QuestionFragment.this).commit();
-                    // quizStart.deleteRow(id);
+                    //quizStart.deleteRow();
                 }
                 else {
                     Intent intent = new Intent();
                     intent.putExtra("delete", true);
+                    intent.putExtra("question", q);
 
                     getActivity().setResult(50, intent);
                     getActivity().finish();
@@ -81,27 +81,30 @@ public class QuestionFragment extends Fragment implements Serializable {
 
             @Override
             public void onClick(View v) {
+                question = view.findViewById(R.id.question);
+                answer1 = view.findViewById(R.id.answer1);
+                answer2 = view.findViewById(R.id.answer2);
+                answer3 = view.findViewById(R.id.answer3);
+                answer4 = view.findViewById(R.id.answer4);
+                digits = view.findViewById(R.id.digits);
 
                 q.setQuestion(question.getText().toString());
                 try{
-                    q.setRightAnswer(correctAnswer.getText().toString());
+                    q.setRightAnswer(((EditText)view.findViewById(R.id.answerRight)).getText().toString());
                 }catch(NullPointerException e){
 
                 }
 
-                Log.i("thhh" , q.getQuestion() + "u");
-                Log.i("thhh" , q.getRightAnswer() + "u");
-
                 try {
-                    q.getAnswers().add(answer1.getText().toString());
-                    q.getAnswers().add(answer2.getText().toString());
-                    q.getAnswers().add(answer3.getText().toString());
-                    q.getAnswers().add(answer4.getText().toString());
+                    q.getAnswers().add(((EditText)view.findViewById(R.id.answer1)).getText().toString());
+                    q.getAnswers().add(((EditText)view.findViewById(R.id.answer2)).getText().toString());
+                    q.getAnswers().add(((EditText)view.findViewById(R.id.answer3)).getText().toString());
+                    q.getAnswers().add(((EditText)view.findViewById(R.id.answer4)).getText().toString());
                 }catch(NullPointerException e){
 
                 }
                 try{
-                    q.getAnswers().add(digits.getText().toString());
+                    q.setDigits(Integer.parseInt(digits.getText().toString()));
                 }catch(NullPointerException e){
 
                 }
@@ -116,6 +119,7 @@ public class QuestionFragment extends Fragment implements Serializable {
                 else {
                     Intent intent = new Intent();
                     intent.putExtra("add", true);
+                    intent.putExtra("question", q);
                     getActivity().setResult(50, intent);
                     getActivity().finish();
                 }
@@ -133,27 +137,50 @@ public class QuestionFragment extends Fragment implements Serializable {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        switch(choice){
-            case "numeric":view = inflater.inflate(R.layout.numeric_fragment, container, false); break;
-            case "multipleChoice": view = inflater.inflate(R.layout.multiple_choice_fragment, container, false); break;
-            case "trueFalse": view = inflater.inflate(R.layout.true_false_fragment, container, false);
-        }
-
 
         q = (Question) (getActivity().getIntent().getExtras().getSerializable("question"));
+        switch(choice){
+            case "numeric":view = inflater.inflate(R.layout.numeric_fragment, container, false);
+            q.setType("numeric"); break;
+            case "multipleChoice": view = inflater.inflate(R.layout.multiple_choice_fragment, container, false);
+                q.setType("multipleChoice"); break;
+            case "trueFalse": view = inflater.inflate(R.layout.true_false_fragment, container, false);
+                q.setType("trueFalse");
+        }
+        question = view.findViewById(R.id.question);
+        answer1 = view.findViewById(R.id.answer1);
+        answer2 = view.findViewById(R.id.answer2);
+        answer3 = view.findViewById(R.id.answer3);
+        answer4 = view.findViewById(R.id.answer4);
+        correctAnswer = view.findViewById(R.id.answerRight);
+        digits = view.findViewById(R.id.digits);
 
-       /** correctAnswer.setText(getArguments().getString("cAnswer"));
-        question.setText(getArguments().getString("Question"));**/
+
+        question.setText("");
+
         try {
-            answer1.setText(getArguments().getString("Answer1") + "e");
-            answer2.setText(getArguments().getString("Answer2"));
-            answer3.setText(getArguments().getString("Answer3"));
-            answer4.setText(getArguments().getString("Answer4"));
+        correctAnswer.setText(q.getRightAnswer());
         }catch(NullPointerException e){
 
         }
         try{
-        digits.setText(getArguments().getString("Digits"));
+        question.setText(q.getQuestion());
+    }catch(NullPointerException e){
+
+    }
+        try {
+            answer1.setText(q.getAnswers().get(0));
+            answer2.setText(q.getAnswers().get(1));
+            answer3.setText(q.getAnswers().get(2));
+            answer4.setText(q.getAnswers().get(3));
+        }catch(NullPointerException e){
+
+
+        }catch(IndexOutOfBoundsException e2){
+
+    }
+        try{
+        digits.setText(Integer.toString(q.getDigits()));
     }catch(NullPointerException e){
 
     }
