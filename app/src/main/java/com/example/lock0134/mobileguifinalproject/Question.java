@@ -31,24 +31,23 @@ public class Question implements Serializable {
     }
 
     public int getID() {
-    return id;
-}
-public String getRightAnswer(){
+        return id;
+    }
+    public String getRightAnswer(){
         return rightAnswer;
-}
+    }
 
-public List<String> getAnswers(){
-    return answers;
-}
+    public List<String> getAnswers(){
+        return answers;
+    }
 
-public int getDigits(){
-    return digits;
-}
+    public int getDigits(){
+        return digits;
+    }
 
-
-public String getType(){
-    return type;
-}
+    public String getType(){
+        return type;
+    }
     public String getQuestion() {
         return question;
     }
@@ -64,17 +63,15 @@ public String getType(){
         answers = ans;
     }
 
-
-
     public void setType(String type){
         this.type = type;
     }
     public void setQuestion(String q) {
         question = q;
     }
-public void setDigits(int digits){
+    public void setDigits(int digits){
         this.digits = digits;
-}
+    }
 
 
 }
