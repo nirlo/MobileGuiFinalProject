@@ -12,7 +12,7 @@ import android.util.Log;
 public class QuestionDatabaseHelper extends SQLiteOpenHelper{
 
         final private static String DATABASE_NAME = "message.db";
-        final private static int VERSION_NUM = 16;
+        final private static int VERSION_NUM = 17;
         final static String TABLE_NAME= "Question";
         final static String KEY_ID = "ID";
         final static String KEY_TEXT = "Text";

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+<TextView
+    android:id="@+id/aboutName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="10dp"
+    android:text="@string/about_name"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:textSize="20sp"
+    android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/aboutDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="10dp"
+        android:text="@string/about_desc"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    </LinearLayout>

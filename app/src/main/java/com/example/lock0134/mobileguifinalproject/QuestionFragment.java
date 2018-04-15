@@ -29,6 +29,7 @@ public class QuestionFragment extends Fragment implements Serializable {
      Button deleteButton;
      Button addButton;
      String choice;
+     QuizStart qs;
 
     EditText question;
      EditText answer1;
@@ -46,13 +47,13 @@ public class QuestionFragment extends Fragment implements Serializable {
     }
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        Boolean exist = getActivity().getIntent().getExtras().getBoolean("exist");
+        final Boolean exist = getArguments().getBoolean("exist");
 
         deleteButton = (Button) view.findViewById(R.id.deleteQuestion);
         addButton = (Button) view.findViewById(R.id.addQuestion);
 
         if(exist) {
-            addButton.setEnabled(false);
+            addButton.setText("Save");
         }
 
         deleteButton.setOnClickListener(new View.OnClickListener()  {
@@ -62,7 +63,7 @@ public class QuestionFragment extends Fragment implements Serializable {
                 if(isTablet) {
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.remove(QuestionFragment.this).commit();
-                    //quizStart.deleteRow();
+                    qs.deleteRow(q.getID());
                 }
                 else {
                     Intent intent = new Intent();
@@ -81,51 +82,51 @@ public class QuestionFragment extends Fragment implements Serializable {
 
             @Override
             public void onClick(View v) {
+
                 question = view.findViewById(R.id.question);
                 answer1 = view.findViewById(R.id.answer1);
                 answer2 = view.findViewById(R.id.answer2);
                 answer3 = view.findViewById(R.id.answer3);
                 answer4 = view.findViewById(R.id.answer4);
                 digits = view.findViewById(R.id.digits);
+        if(exist){
+            saveFrag();
+        }
+        else {
+            q.setQuestion(question.getText().toString());
+            try {
+                q.setRightAnswer(((EditText) view.findViewById(R.id.answerRight)).getText().toString());
+            } catch (NullPointerException e) {
 
-                q.setQuestion(question.getText().toString());
-                try{
-                    q.setRightAnswer(((EditText)view.findViewById(R.id.answerRight)).getText().toString());
-                }catch(NullPointerException e){
+            }
 
-                }
+            try {
+                q.getAnswers().add(((EditText) view.findViewById(R.id.answer1)).getText().toString());
+                q.getAnswers().add(((EditText) view.findViewById(R.id.answer2)).getText().toString());
+                q.getAnswers().add(((EditText) view.findViewById(R.id.answer3)).getText().toString());
+                q.getAnswers().add(((EditText) view.findViewById(R.id.answer4)).getText().toString());
+            } catch (NullPointerException e) {
 
-                try {
-                    q.getAnswers().add(((EditText)view.findViewById(R.id.answer1)).getText().toString());
-                    q.getAnswers().add(((EditText)view.findViewById(R.id.answer2)).getText().toString());
-                    q.getAnswers().add(((EditText)view.findViewById(R.id.answer3)).getText().toString());
-                    q.getAnswers().add(((EditText)view.findViewById(R.id.answer4)).getText().toString());
-                }catch(NullPointerException e){
+            }
+            try {
+                q.setDigits(Integer.parseInt(digits.getText().toString()));
+            } catch (NullPointerException e) {
 
-                }
-                try{
-                    q.setDigits(Integer.parseInt(digits.getText().toString()));
-                }catch(NullPointerException e){
-
-                }
-
-
-
-                if(isTablet) {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.remove(QuestionFragment.this).commit();
-                    // quizStart.addRow(id);
-                }
-                else {
-                    Intent intent = new Intent();
-                    intent.putExtra("add", true);
-                    intent.putExtra("question", q);
-                    getActivity().setResult(50, intent);
-                    getActivity().finish();
-                }
+            }
 
 
+            if (isTablet) {
+                qs.addRow(q);
+            } else {
+                Intent intent = new Intent();
+                intent.putExtra("add", true);
+                intent.putExtra("question", q);
+                getActivity().setResult(51, intent);
+                getActivity().finish();
+            }
 
+
+        }
             }
 
 
@@ -138,7 +139,7 @@ public class QuestionFragment extends Fragment implements Serializable {
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        q = (Question) (getActivity().getIntent().getExtras().getSerializable("question"));
+        q = (Question) (getArguments().getSerializable("question"));
         switch(choice){
             case "numeric":view = inflater.inflate(R.layout.numeric_fragment, container, false);
             q.setType("numeric"); break;
@@ -156,7 +157,6 @@ public class QuestionFragment extends Fragment implements Serializable {
         digits = view.findViewById(R.id.digits);
 
 
-        question.setText("");
 
         try {
         correctAnswer.setText(q.getRightAnswer());
@@ -194,6 +194,48 @@ public class QuestionFragment extends Fragment implements Serializable {
 
     public void setChoice(String choice){
         this.choice = choice;
+    }
+
+    public void setQuizStart(QuizStart qs){
+        this.qs = qs;
+    }
+
+    public void saveFrag(){
+
+        q.setQuestion(question.getText().toString());
+        try{
+            q.setRightAnswer(((EditText)view.findViewById(R.id.answerRight)).getText().toString());
+        }catch(NullPointerException e){
+
+        }
+
+        try {
+            q.getAnswers().add(((EditText)view.findViewById(R.id.answer1)).getText().toString());
+            q.getAnswers().add(((EditText)view.findViewById(R.id.answer2)).getText().toString());
+            q.getAnswers().add(((EditText)view.findViewById(R.id.answer3)).getText().toString());
+            q.getAnswers().add(((EditText)view.findViewById(R.id.answer4)).getText().toString());
+        }catch(NullPointerException e){
+
+        }
+        try{
+            q.setDigits(Integer.parseInt(digits.getText().toString()));
+        }catch(NullPointerException e){
+
+        }
+
+
+
+        if(isTablet) {
+            qs.modifyRow(q);
+        }
+        else {
+            Intent intent = new Intent();
+            intent.putExtra("modify", true);
+            intent.putExtra("question", q);
+            getActivity().setResult(50, intent);
+            getActivity().finish();
+        }
+
     }
 
 
