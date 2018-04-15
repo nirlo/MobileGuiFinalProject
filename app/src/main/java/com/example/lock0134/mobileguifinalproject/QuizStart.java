@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -44,6 +45,7 @@ public class QuizStart extends AppCompatActivity {
     AlertDialog dialog;
     Cursor c;
     Button importButton;
+    QuestionFragment lastFrag;
 
     private class QuizAdapter extends ArrayAdapter<String> {
         public QuizAdapter(Context ctx) {
@@ -92,11 +94,11 @@ public class QuizStart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_start);
 
-        /**final FrameLayout fl = (FrameLayout) findViewById(R.id.frameLayout);
+        final FrameLayout fl = (FrameLayout) findViewById(R.id.frameLayout);
 
         if((fl != null)){
             frameLayoutLoaded = true;
-        }**/
+        }
 
         importButton = (Button) findViewById(R.id.importQuestion);
 
@@ -129,6 +131,8 @@ public class QuizStart extends AppCompatActivity {
 
                             }
                         }
+                        Snackbar sb = Snackbar.make(getWindow().getDecorView(), "Imported Questions", Snackbar.LENGTH_SHORT);
+                        sb.show();
                         questions.addAll(importQuestion.getQuestions());
                         addRow();
 
@@ -192,44 +196,53 @@ public class QuizStart extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 QuestionFragment frag = new QuestionFragment();
+                String type = questions.get(position).getType();
+                Bundle bundle = new Bundle();
+                switch(type) {
+                    case "numeric":
+                        bundle.putString("type", "numeric");
+                        frag.setChoice("numeric");
+                        break;
+                    case "multipleChoice":
+                        bundle.putString("type", "multipleChoice");
+                        frag.setChoice("multipleChoice");
+                        break;
+                    case "trueFalse":
+                        bundle.putString("type", "trueFalse");
+                        frag.setChoice("trueFalse");
+                }
+                bundle.putBoolean("exist", true);
+                bundle.putSerializable("frag", frag);
+                bundle.putSerializable("question" , questions.get(position));
 
                 if (frameLayoutLoaded) {
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
+                    if(lastFrag!= null){
+                        lastFrag.saveFrag();
+                        ft.remove(lastFrag);
+                        addRow();
+                    }
+
                     while (fm.getBackStackEntryCount() > 0) {
                         fm.popBackStackImmediate();
                     }
-                    /**switch(id){
-                     case R.id.numeric:ft.add(R.id.nFrameLayout, frag).commit(); break;
-                     case R.id.multipleChoice:ft.add(R.id.mcFrameLayout, frag).commit(); break;
-                     case R.id.trueFalse:ft.add(R.id.tffFrameLayout, frag).commit();
-                     }**/
-
+                    frag.setArguments(bundle);
                     frag.setIsTablet(true);
+                    frag.setQuizStart(QuizStart.this);
+                    lastFrag = frag;
+                    ft.add(R.id.frameLayout, frag).commit();
+
+
+
                 } else {
 
                     Intent intent = new Intent(getApplicationContext(), QuestionDetails.class);
-                    frag.setIsTablet(false);
-                    Bundle bundle = new Bundle();
-                    String type = questions.get(position).getType();
-
-                    switch(type) {
-                     case "numeric":
-                     bundle.putString("type", "numeric");
-                     frag.setChoice("numeric");
-                     break;
-                     case "multipleChoice":
-                     bundle.putString("type", "multipleChoice");
-                     frag.setChoice("multipleChoice");
-                     break;
-                     case "trueFalse":
-                     bundle.putString("type", "trueFalse");
-                     frag.setChoice("trueFalse");
-                     }
-                    bundle.putBoolean("exist", true);
-                    bundle.putSerializable("frag", frag);
-                    bundle.putSerializable("question" , questions.get(position));
                     intent.putExtras(bundle);
+                    frag.setIsTablet(false);
+
+
+
 
                     QuizStart.this.startActivityForResult(intent, 50);
 
@@ -297,6 +310,11 @@ public class QuizStart extends AppCompatActivity {
                 b.putString("shortest" , QuestionCalc.getShortest(questions).getQuestion());
                 b.putInt("total" , QuestionCalc.getTotal(questions));
                 b.putDouble("average" , QuestionCalc.getAverage(questions));
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                if (lastFrag != null) {
+                    ft.remove(lastFrag);
+                }
                 intent.putExtras(b);
                 startActivity(intent);
 
@@ -304,10 +322,20 @@ public class QuizStart extends AppCompatActivity {
 
                 break;
             case R.id.about:
-                String textAbout = "Version 1.0, by William";
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+                builder2.setTitle("About");
+                LayoutInflater inflater2 = this.getLayoutInflater();
+                final View dView2 = inflater2.inflate(R.layout.question_about, null);
+                builder2.setView(dView2);
 
-                Toast toast = Toast.makeText(this, textAbout, Toast.LENGTH_SHORT);
-                toast.show();
+                builder2.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+                dialog = builder2.create();
+                dialog.show();
 
         }
         return true;
@@ -318,61 +346,71 @@ public class QuizStart extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-               int id = b.getId();
+                int id = b.getId();
 
 
                 QuestionFragment frag = new QuestionFragment();
-
-                if(frameLayoutLoaded) {
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    while (fm.getBackStackEntryCount() > 0) {
-                        fm.popBackStackImmediate();
-                    }
-                    switch(id){
-                        case R.id.numeric:ft.add(R.id.nFrameLayout, frag).commit(); break;
-                        case R.id.multipleChoice:ft.add(R.id.mcFrameLayout, frag).commit(); break;
-                        case R.id.trueFalse:ft.add(R.id.tffFrameLayout, frag).commit();
-                    }
-
-                     frag.setIsTablet(true);
+                Question q = new Question(-1,
+                        "", new ArrayList(),
+                        "",
+                        "", 0);
+                Bundle bundle = new Bundle();
+                switch (id) {
+                    case R.id.numeric:
+                        bundle.putString("type", "numeric");
+                        frag.setChoice("numeric");
+                        break;
+                    case R.id.multipleChoice:
+                        bundle.putString("type", "multipleChoice");
+                        frag.setChoice("multipleChoice");
+                        break;
+                    case R.id.trueFalse:
+                        bundle.putString("type", "trueFalse");
+                        frag.setChoice("trueFalse");
                 }
-                else{
-                    Intent intent = new Intent(QuizStart.this, QuestionDetails.class);
-                    frag.setIsTablet(false);
-                    Bundle bundle = new Bundle();
-                    switch(id) {
-                        case R.id.numeric:
-                            bundle.putString("type", "numeric");
-                            frag.setChoice("numeric");
-                            break;
-                        case R.id.multipleChoice:
-                            bundle.putString("type", "multipleChoice");
-                            frag.setChoice("multipleChoice");
-                            break;
-                        case R.id.trueFalse:
-                            bundle.putString("type", "trueFalse");
-                            frag.setChoice("trueFalse");
+
+
+
+
+                    if (frameLayoutLoaded) {
+                        bundle.putBoolean("exist", false);
+                        bundle.putSerializable("frag", frag);
+                        bundle.putSerializable("question", q);
+                        FragmentManager fm = getFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+                        if (lastFrag != null) {
+                            ft.remove(lastFrag);
+                        }
+
+                        while (fm.getBackStackEntryCount() > 0) {
+                            fm.popBackStackImmediate();
+                        }
+                        frag.setArguments(bundle);
+                        frag.setIsTablet(true);
+                        frag.setQuizStart(QuizStart.this);
+                        lastFrag = frag;
+                        ft.add(R.id.frameLayout, frag).commit();
+
+
+                    } else {
+                        Intent intent = new Intent(QuizStart.this, QuestionDetails.class);
+                        frag.setIsTablet(false);
+
+
+
+                        bundle.putSerializable("question", q);
+                        bundle.putSerializable("frag", frag);
+                        intent.putExtras(bundle);
+
+
+
+                        QuizStart.this.startActivityForResult(intent, 50);
+
                     }
-
-
-                    Question q = new Question(-1,
-                            "",new ArrayList(),
-                            "",
-                            "", 0);
-
-                    bundle.putSerializable("question" , q);
-                    bundle.putSerializable("frag" , frag);
-                    intent.putExtras(bundle);
-
                     dialog.dismiss();
 
-                     QuizStart.this.startActivityForResult(intent , 50);
 
-                }
             }
-
-
         });
     }
     @Override
@@ -381,10 +419,12 @@ public class QuizStart extends AppCompatActivity {
         if(requestCode == 50 && responseCode == 50 && data.getBooleanExtra("delete" , false)){
             deleteRow(((Question)data.getSerializableExtra("question")).getID());
         }
-        if(requestCode == 50 && responseCode == 50 && data.getBooleanExtra("add" , false)){
+        if(requestCode == 50 && responseCode == 51 && data.getBooleanExtra("add" , false)){
             questions.add((Question)(data.getSerializableExtra("question")));
-            Log.i("eee",questions.get(questions.size()-1).getQuestion());
             addRow();
+        }
+        if(requestCode == 50 && responseCode == 50 && data.getBooleanExtra("modify" , false)){
+            modifyRow((Question)(data.getSerializableExtra("question")));
         }
     }
 
@@ -441,6 +481,9 @@ public class QuizStart extends AppCompatActivity {
 
     public String convertListToCommaString(List<String> list){
         String ss = "";
+        if(list.size() == 1){
+            return list.get(0);
+        }
         for(String s : list){
             if(!(list.lastIndexOf(s) == list.size() - 1)){
                 ss += s + ",";
@@ -452,6 +495,11 @@ public class QuizStart extends AppCompatActivity {
         }
 
         return ss;
+    }
+
+    public void addRow(Question q){
+        questions.add(q);
+        addRow();
     }
 
     public void addRow(){
@@ -480,7 +528,7 @@ public class QuizStart extends AppCompatActivity {
         Cursor c = db.rawQuery("select * from question", null);
 
         c.moveToPosition(c.getCount() - questionCount);
-int h = 0;
+        int h = 0;
         while (!c.isAfterLast()) {
 
             try {
@@ -523,5 +571,19 @@ int h = 0;
         quizAdapter.notifyDataSetChanged();
         Toast toast = Toast.makeText(this, "Question Added", Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    public void modifyRow(Question q){
+        ContentValues cv = new ContentValues();
+        cv.put(QuestionDatabaseHelper.KEY_TEXT , q.getQuestion() );
+        cv.put(QuestionDatabaseHelper.KEY_RIGHT , q.getRightAnswer() );
+        cv.put(QuestionDatabaseHelper.KEY_TYPE , q.getType() );
+        cv.put(QuestionDatabaseHelper.KEY_DIGIT , q.getDigits() );
+        cv.put(QuestionDatabaseHelper.KEY_ANSWER ,convertListToCommaString(q.getAnswers()));
+        db.update(QuestionDatabaseHelper.TABLE_NAME , cv , "id="+q.getID() ,null);
+        Toast toast = Toast.makeText(this, "Question Saved", Toast.LENGTH_LONG);
+        toast.show();
+        listView.setAdapter(quizAdapter);
+        quizAdapter.notifyDataSetChanged();
     }
 }

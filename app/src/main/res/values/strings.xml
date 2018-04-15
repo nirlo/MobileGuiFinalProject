@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">MobileGuiFinalProject</string>
+    <string name="question">Question</string>
+    <string name="answer">Answer</string>
+    <string name="right_answer">Right Answer</string>
+    <string name="about_desc">Add question - use the plus icon in the toolbar\n
+    Remove Question - click on a question in the listview and click the delete button\n
+    See Stats - use the stats icon in the toolbar\n
+    Import Question - Click import button at bottom and enter URL</string>
+    <string name="about_name">Version 1 by William Meek 040882274</string>
+    <string name="stats_name">Question Stats</string>
+    <string name="stats_total">Total Questions : </string>
+    <string name="stats_average">Average Question Length : </string>
+    <string name="stats_longest">Longest Question : </string>
+    <string name="stats_shortest">Shortest Question : </string>
+    <string name="deleteB">Delete</string>
+    <string name="addB">Add</string>
+
+
+
 </resources>
