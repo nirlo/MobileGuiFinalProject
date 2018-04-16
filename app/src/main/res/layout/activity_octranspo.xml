@@ -11,6 +11,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/busToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/AlertDialog.AppCompat.Light"
+            android:elevation="4dp"/>
+
         <EditText
             android:id="@+id/search_stops"
             android:layout_width="match_parent"

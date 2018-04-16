@@ -1,7 +1,9 @@
 package com.example.lock0134.mobileguifinalproject;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,25 +11,26 @@ import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class OCTranspo extends Activity {
+public class OCTranspo extends AppCompatActivity {
     protected EditText stop;
     protected Button search;
     protected BusStopsDatabaseHelpder dbHelper;
@@ -36,6 +39,7 @@ public class OCTranspo extends Activity {
     protected SQLiteDatabase db;
     protected Cursor c;
     protected StopsAdapter stopsAdapter;
+    protected AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,9 @@ public class OCTranspo extends Activity {
         stopsAdapter = new StopsAdapter(this, previousStops);
         previous.setAdapter(stopsAdapter);
 
+        Toolbar toolBar = findViewById(R.id.busToolBar);
+        setSupportActionBar(toolBar);
+
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,11 +87,12 @@ public class OCTranspo extends Activity {
                 previousStops.put(details.get(0), details);
 
                 Intent intent = new Intent(OCTranspo.this, TranspoDetails.class);
-                startActivityForResult(intent, 5, bundle);
+                startActivityForResult(intent, 5);
             }
         });
 
         previous.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
@@ -180,5 +188,38 @@ public class OCTranspo extends Activity {
             stopsAdapter.notifyDataSetChanged();
             Toast.makeText(this, "It is done", Toast.LENGTH_LONG);
         }
+    }
+
+    public boolean onCreateOptionsMenu (Menu m) {
+        getMenuInflater().inflate(R.menu.bus_toolbar, m );
+        return true;
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem mi) {
+        int id = mi.getItemId();
+        switch(id){
+            case R.id.busAbout:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("This Activity was created by Nick Lockhart");
+                LayoutInflater inflater = this.getLayoutInflater();
+                final View busAbout = inflater.inflate(R.layout.dialog, null);
+                builder.setView(busAbout);
+
+                TextView text = busAbout.findViewById(R.id.aboutBusText);
+
+                text.setText("Version #1\nSimply search for a stop number or a stop number and " +
+                        "a bus number to find information about them. Each search will be saved " +
+                        "in a list to be easily reviewed and can be deleted within the details view" +
+                        "of the search item.");
+
+                dialog = builder.create();
+                dialog.show();
+                break;
+            default:
+                break;
+
+        }
+        return true;
     }
 }

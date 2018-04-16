@@ -9,4 +9,5 @@
                                 routes at that stop. Format: [Stop Number], [Bus Number]
     </string>
     <string name="deleteRouteText">Delete Entry</string>
+    <string name="OCTranspoBtnText">Bus Times</string>
 </resources>
