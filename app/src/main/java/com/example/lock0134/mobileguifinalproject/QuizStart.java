@@ -267,7 +267,7 @@ public class QuizStart extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("What type of question do you want to create?");
                 LayoutInflater inflater = this.getLayoutInflater();
-                final View dView = inflater.inflate(R.layout.dialogQuestion, null);
+                final View dView = inflater.inflate(R.layout.dialog_question, null);
                 builder.setView(dView);
 
                 builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
