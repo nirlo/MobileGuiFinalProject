@@ -4,7 +4,7 @@
 
     <item android:id="@+id/busAbout"
         android:title="one"
-        android:icon="@drawable/icons8-grandpa-climber-48"
+        android:icon="@drawable/icons8_grandpa_climber_48"
         android:orderInCategory="100"
         app:showAsAction="always"
         />

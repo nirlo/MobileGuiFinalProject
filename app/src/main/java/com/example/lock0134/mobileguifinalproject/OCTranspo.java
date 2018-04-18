@@ -2,19 +2,16 @@ package com.example.lock0134.mobileguifinalproject;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -203,7 +200,7 @@ public class OCTranspo extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("This Activity was created by Nick Lockhart");
                 LayoutInflater inflater = this.getLayoutInflater();
-                final View busAbout = inflater.inflate(R.layout.dialog, null);
+                final View busAbout = inflater.inflate(R.layout.bus_dialog, null);
                 builder.setView(busAbout);
 
                 TextView text = busAbout.findViewById(R.id.aboutBusText);
