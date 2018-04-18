@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MobileGuiFinalProject</string>
+
     <string name="movieButton">Movie Informaion</string>
     <string name="downloadButton">Download Movie Info</string>
     <string name="MovieInformation">Movie Information</string>
@@ -15,4 +16,34 @@
     <string name="movieURL">Paste Movie URL</string>
     <string name="submitMovie">Submit</string>
     <string name="Information">Information</string>
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="busHint">Stop, Bus Number</string>
+    <string name="busSearch">search</string>
+    <string name="instructions">Enter the Stop number and the bus number to get their info. Enter only Stop Number for a summary of the
+                                routes at that stop. Format: [Stop Number], [Bus Number]
+    </string>
+    <string name="deleteRouteText">Delete Entry</string>
+    <string name="OCTranspoBtnText">Bus Times</string>
+
+    <string name="question">Question</string>
+    <string name="answer">Answer</string>
+    <string name="right_answer">Right Answer</string>
+    <string name="about_desc">Add question - use the plus icon in the toolbar\n
+    Remove Question - click on a question in the listview and click the delete button\n
+    See Stats - use the stats icon in the toolbar\n
+    Import Question - Click import button at bottom and enter URL</string>
+    <string name="about_name">Version 1 by William Meek 040882274</string>
+    <string name="stats_name">Question Stats</string>
+    <string name="stats_total">Total Questions : </string>
+    <string name="stats_average">Average Question Length : </string>
+    <string name="stats_longest">Longest Question : </string>
+    <string name="stats_shortest">Shortest Question : </string>
+    <string name="deleteB">Delete</string>
+    <string name="addB">Add</string>
+
+
 </resources>
