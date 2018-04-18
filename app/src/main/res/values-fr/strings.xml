@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MobileGuiFinalProject</string>
+    <string name="movieButton">Informations sur le film</string>
+    <string name="downloadButton">Télécharger les informations</string>
+    <string name="MovieInformation">Informations sur le film</string>
+    <string name="addMovieButton">Ajouter un film</string>
+    <string name="movieName">Nom du film: </string>
+    <string name="movieLength">Durée du film: </string>
+    <string name="movieTitle">Entrer le titre du film</string>
+    <string name="movieActors">Entrez les acteurs du cinéma</string>
+    <string name="moveLength">Entrer la longueur du film</string>
+    <string name="movieDescription">Entrez la description du film</string>
+    <string name="movieRating">Entrer le classement du film</string>
+    <string name="movieGenre">Entrez le genre de film</string>
+    <string name="movieURL">Coller l'URL du film</string>
+    <string name="submitMovie">Soumettre</string>
+    <string name="Information">Information</string>
+</resources>

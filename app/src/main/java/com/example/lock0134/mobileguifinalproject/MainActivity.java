@@ -14,6 +14,16 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button movieB = (Button) findViewById(R.id.movieButton);
+
+        movieB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MovieInformation.class);
+                startActivityForResult(intent, 50);
+            }}
+        );
+
 
         ocTranspo = findViewById(R.id.OCTranspoButton);
 
@@ -25,6 +35,5 @@ public class MainActivity extends Activity {
                 Toast.makeText(MainActivity.this, "You have clicked the bus button!", Toast.LENGTH_LONG);
             }
         });
-
     }
 }

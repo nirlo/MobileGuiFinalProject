@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/movieTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/movieTitle" />
+
+    <EditText
+        android:id="@+id/movieActors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/movieTitle"
+        android:layout_below="@+id/movieTitle"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/movieActors"/>
+
+    <EditText
+        android:id="@+id/movieLength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/movieActors"
+        android:layout_below="@+id/movieActors"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/movieLength" />
+
+    <EditText
+        android:id="@+id/movieDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/movieLength"
+        android:layout_below="@+id/movieLength"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/movieDescription" />
+
+    <EditText
+        android:id="@+id/movieRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/movieDesc"
+        android:layout_below="@+id/movieDesc"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/movieRating" />
+
+    <EditText
+        android:id="@+id/movieGenre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movieRate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/movieGenre" />
+
+    <EditText
+        android:id="@+id/movieURL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/movieGenre"
+        android:layout_below="@+id/movieGenre"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/movieURL" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movieURL"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
+        android:hint="@string/submitMovie" />
+</RelativeLayout>
