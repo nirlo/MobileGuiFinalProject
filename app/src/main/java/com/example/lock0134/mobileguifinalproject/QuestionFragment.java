@@ -114,7 +114,6 @@ public class QuestionFragment extends Fragment implements Serializable {
 
             }
 
-
             if (isTablet) {
                 qs.addRow(q);
             } else {

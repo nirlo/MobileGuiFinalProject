@@ -560,6 +560,7 @@ public class QuizStart extends AppCompatActivity {
                     for (String one : a) {
                         questions.get(questions.size()-1).getAnswers().add(one);
                     }
+
                 }catch(NullPointerException e){
 
                 }
@@ -581,6 +582,36 @@ public class QuizStart extends AppCompatActivity {
         cv.put(QuestionDatabaseHelper.KEY_DIGIT , q.getDigits() );
         cv.put(QuestionDatabaseHelper.KEY_ANSWER ,convertListToCommaString(q.getAnswers()));
         db.update(QuestionDatabaseHelper.TABLE_NAME , cv , "id="+q.getID() ,null);
+
+        questions.clear();
+        c = db.rawQuery("select * from question", null);
+
+
+        if (c.moveToFirst()) {
+
+
+            while (!c.isAfterLast()) {
+
+                questions.add(new Question(c.getInt(c.getColumnIndex(QuestionDatabaseHelper.KEY_ID)),
+                        c.getString(c.getColumnIndex(QuestionDatabaseHelper.KEY_TEXT)),
+                        new ArrayList(),
+                        c.getString(c.getColumnIndex(QuestionDatabaseHelper.KEY_RIGHT)),
+                        c.getString(c.getColumnIndex(QuestionDatabaseHelper.KEY_TYPE)),
+                        c.getInt((c.getColumnIndex(QuestionDatabaseHelper.KEY_DIGIT)))));
+                String ans = c.getString(c.getColumnIndex(QuestionDatabaseHelper.KEY_ANSWER));
+                try {
+                    String[] a = ans.split(",");
+                    for (String one : a) {
+                        questions.get(questions.size()-1).getAnswers().add(one);
+                    }
+
+                }catch(NullPointerException e){
+
+                }
+
+                c.moveToNext();
+            }
+        }
         Toast toast = Toast.makeText(this, "Question Saved", Toast.LENGTH_LONG);
         toast.show();
         listView.setAdapter(quizAdapter);
