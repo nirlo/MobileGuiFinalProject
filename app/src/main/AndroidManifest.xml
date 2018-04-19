@@ -21,8 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MovieInformation" />
+        <activity android:name=".MovieDetails"></activity>
+
+        <activity android:name=".OCTranspo" />
+        <activity android:name=".TranspoDetails"></activity>
+
         <activity android:name=".QuestionDetails" />
         <activity android:name=".QuestionStats" />
+
     </application>
 
 </manifest>
